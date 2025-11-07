@@ -1,0 +1,10 @@
+=== TEST ULTRA SIMPLE MYSQL - SIN PAQUETE ===
+? Driver cargado
+? Conexión exitosa
+? MySQL Version: 10.4.32-MariaDB
+? Conexión cerrada
+
+? ¡TEST PASSED! MySQL funciona correctamente
+Ahora puedes usar la aplicación financiera
+
+=== FIN DEL TEST ===

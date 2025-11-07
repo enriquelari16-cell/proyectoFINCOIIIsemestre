@@ -8,7 +8,7 @@ public class ConexionDB {
     // Configuración compatible con MySQL Connector/J 8.0.x
     private static final String URL = "jdbc:mysql://localhost:3306/finanzas_personales?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String USUARIO = "root"; // Cambiar por tu usuario
-    private static final String CONTRASENA = ""; // Cambiar por tu contraseña
+    private static final String CONTRASENA = null; // Cambiar por tu contraseña
 
     public static Connection getConnection() throws SQLException {
         try {
