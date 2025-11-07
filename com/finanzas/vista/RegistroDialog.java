@@ -1,252 +1,243 @@
 package finanzas.vista;
 
-import finanzas.dao.UsuarioDAO;
+import finanzas.controlador.FinanzasController;
 import finanzas.modelo.Usuario;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+/**
+ * Diálogo mejorado para registro de nuevos usuarios con validaciones
+ * y consejos educativos integrados.
+ */
 public class RegistroDialog extends JDialog {
+
+    private FinanzasController controlador;
+    private JFrame parent;
+
+    // Campos del formulario
     private JTextField txtNombre;
-    private JTextField txtEdad;
-    private JComboBox<String> cmbTipoUso;
     private JPasswordField txtContrasena;
     private JPasswordField txtConfirmarContrasena;
+    private JTextField txtEdad;
+    private JComboBox<String> comboTipoUso;
     private JTextField txtPresupuestoInicial;
-    private UsuarioDAO usuarioDAO;
 
-    public RegistroDialog(JFrame parent, UsuarioDAO usuarioDAO) {
-        super(parent, "Crear Nueva Cuenta", true);
-        this.usuarioDAO = usuarioDAO;
+    // Botones
+    private JButton btnRegistrar;
+    private JButton btnCancelar;
+
+    public RegistroDialog(JFrame parent, FinanzasController controlador) {
+        super(parent, "Registro de Nuevo Usuario", true);
+        this.parent = parent;
+        this.controlador = controlador;
+
         initComponents();
+        setSize(450, 400);
+        setLocationRelativeTo(parent);
+        setResizable(false);
     }
 
     private void initComponents() {
-        setSize(450, 450);
-        setLocationRelativeTo(getParent());
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
-        panel.setBackground(Color.WHITE);
-
+        // Panel principal
+        JPanel panelPrincipal = new JPanel(new GridBagLayout());
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Título
         JLabel lblTitulo = new JLabel("Crear Nueva Cuenta", JLabel.CENTER);
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 16));
         gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
-        panel.add(lblTitulo, gbc);
+        panelPrincipal.add(lblTitulo, gbc);
 
-        // Campo Nombre de Usuario
-        JLabel lblNombre = new JLabel("Nombre de Usuario:");
-        txtNombre = new JTextField(20);
-        gbc.gridwidth = 1;
-        gbc.gridx = 0; gbc.gridy = 1; panel.add(lblNombre, gbc);
-        gbc.gridx = 1; panel.add(txtNombre, gbc);
+        // Nombre
+        gbc.gridwidth = 1; gbc.gridy = 1;
+        gbc.gridx = 0;
+        panelPrincipal.add(new JLabel("Nombre de usuario:"), gbc);
+        gbc.gridx = 1;
+        txtNombre = new JTextField(15);
+        panelPrincipal.add(txtNombre, gbc);
 
-        // Campo Edad
-        JLabel lblEdad = new JLabel("Edad:");
-        txtEdad = new JTextField(20);
-        gbc.gridx = 0; gbc.gridy = 2; panel.add(lblEdad, gbc);
-        gbc.gridx = 1; panel.add(txtEdad, gbc);
+        // Contraseña
+        gbc.gridy = 2; gbc.gridx = 0;
+        panelPrincipal.add(new JLabel("Contraseña:"), gbc);
+        gbc.gridx = 1;
+        txtContrasena = new JPasswordField(15);
+        panelPrincipal.add(txtContrasena, gbc);
 
-        // Campo Tipo de Uso
-        JLabel lblTipoUso = new JLabel("Tipo de Uso:");
+        // Confirmar contraseña
+        gbc.gridy = 3; gbc.gridx = 0;
+        panelPrincipal.add(new JLabel("Confirmar contraseña:"), gbc);
+        gbc.gridx = 1;
+        txtConfirmarContrasena = new JPasswordField(15);
+        panelPrincipal.add(txtConfirmarContrasena, gbc);
+
+        // Edad
+        gbc.gridy = 4; gbc.gridx = 0;
+        panelPrincipal.add(new JLabel("Edad:"), gbc);
+        gbc.gridx = 1;
+        txtEdad = new JTextField(5);
+        panelPrincipal.add(txtEdad, gbc);
+
+        // Tipo de uso
+        gbc.gridy = 5; gbc.gridx = 0;
+        panelPrincipal.add(new JLabel("Tipo de uso:"), gbc);
+        gbc.gridx = 1;
         String[] tiposUso = {"Personal", "Familiar", "Empresarial", "Estudiante"};
-        cmbTipoUso = new JComboBox<>(tiposUso);
-        gbc.gridx = 0; gbc.gridy = 3; panel.add(lblTipoUso, gbc);
-        gbc.gridx = 1; panel.add(cmbTipoUso, gbc);
+        comboTipoUso = new JComboBox<>(tiposUso);
+        panelPrincipal.add(comboTipoUso, gbc);
 
-        // Campo Contraseña
-        JLabel lblContrasena = new JLabel("Contraseña:");
-        txtContrasena = new JPasswordField(20);
-        gbc.gridx = 0; gbc.gridy = 4; panel.add(lblContrasena, gbc);
-        gbc.gridx = 1; panel.add(txtContrasena, gbc);
-
-        // Campo Confirmar Contraseña
-        JLabel lblConfirmar = new JLabel("Confirmar Contraseña:");
-        txtConfirmarContrasena = new JPasswordField(20);
-        gbc.gridx = 0; gbc.gridy = 5; panel.add(lblConfirmar, gbc);
-        gbc.gridx = 1; panel.add(txtConfirmarContrasena, gbc);
-
-        // Campo Presupuesto Inicial
-        JLabel lblPresupuesto = new JLabel("Presupuesto Inicial:");
-        txtPresupuestoInicial = new JTextField("0.00", 20);
-        gbc.gridx = 0; gbc.gridy = 6; panel.add(lblPresupuesto, gbc);
-        gbc.gridx = 1; panel.add(txtPresupuestoInicial, gbc);
-
-        // Nota informativa
-        JLabel lblNota = new JLabel("<html><i>El presupuesto inicial es opcional (puedes dejarlo en 0)</i></html>");
-        lblNota.setFont(new Font("Segoe UI", Font.ITALIC, 11));
-        lblNota.setForeground(Color.GRAY);
-        gbc.gridx = 0; gbc.gridy = 7; gbc.gridwidth = 2;
-        panel.add(lblNota, gbc);
+        // Presupuesto inicial
+        gbc.gridy = 6; gbc.gridx = 0;
+        panelPrincipal.add(new JLabel("Presupuesto inicial ($):"), gbc);
+        gbc.gridx = 1;
+        txtPresupuestoInicial = new JTextField(10);
+        panelPrincipal.add(txtPresupuestoInicial, gbc);
 
         // Panel de botones
         JPanel panelBotones = new JPanel(new FlowLayout());
-        panelBotones.setBackground(Color.WHITE);
-
-        JButton btnRegistrar = new JButton("Crear Cuenta");
-        btnRegistrar.setBackground(new Color(100, 100, 200));
+        btnRegistrar = new JButton("Crear Cuenta");
+        btnRegistrar.setBackground(new Color(50, 150, 100));
         btnRegistrar.setForeground(Color.WHITE);
-        btnRegistrar.setPreferredSize(new Dimension(120, 35));
         btnRegistrar.addActionListener(this::registrarUsuario);
 
-        JButton btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBackground(new Color(150, 150, 150));
+        btnCancelar = new JButton("Cancelar");
+        btnCancelar.setBackground(new Color(200, 50, 50));
         btnCancelar.setForeground(Color.WHITE);
-        btnCancelar.setPreferredSize(new Dimension(120, 35));
         btnCancelar.addActionListener(e -> dispose());
 
         panelBotones.add(btnRegistrar);
         panelBotones.add(btnCancelar);
 
-        gbc.gridx = 0; gbc.gridy = 8; gbc.gridwidth = 2;
-        panel.add(panelBotones, gbc);
+        gbc.gridy = 7; gbc.gridx = 0; gbc.gridwidth = 2;
+        panelPrincipal.add(panelBotones, gbc);
 
-        add(panel);
+        add(panelPrincipal, BorderLayout.CENTER);
 
-        // Focus en el primer campo
-        SwingUtilities.invokeLater(() -> txtNombre.requestFocus());
+        // Configurar validación en tiempo real
+        configurarValidacionTiempoReal();
+
+        // Configurar teclas
+        configurarTeclasEnter();
+    }
+
+    private void configurarValidacionTiempoReal() {
+        // Validar contraseñas coinciden
+        txtConfirmarContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                validarContrasenas();
+            }
+        });
+
+        txtContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                validarContrasenas();
+            }
+        });
+    }
+
+    private void validarContrasenas() {
+        String pass1 = new String(txtContrasena.getPassword());
+        String pass2 = new String(txtConfirmarContrasena.getPassword());
+
+        if (!pass1.isEmpty() && !pass2.isEmpty()) {
+            if (pass1.equals(pass2)) {
+                txtConfirmarContrasena.setBackground(Color.WHITE);
+            } else {
+                txtConfirmarContrasena.setBackground(new Color(255, 200, 200));
+            }
+        }
+    }
+
+    private void configurarTeclasEnter() {
+        // Enter en campos pasa al siguiente
+        txtNombre.addActionListener(e -> txtContrasena.requestFocus());
+        txtContrasena.addActionListener(e -> txtConfirmarContrasena.requestFocus());
+        txtConfirmarContrasena.addActionListener(e -> txtEdad.requestFocus());
+        txtEdad.addActionListener(e -> txtPresupuestoInicial.requestFocus());
+        txtPresupuestoInicial.addActionListener(e -> btnRegistrar.doClick());
     }
 
     private void registrarUsuario(ActionEvent e) {
-        // Obtener datos de los campos
-        String nombre = txtNombre.getText().trim();
-        String edadTexto = txtEdad.getText().trim();
-        String tipoUso = (String) cmbTipoUso.getSelectedItem();
-        String contrasena = new String(txtContrasena.getPassword());
-        String confirmarContrasena = new String(txtConfirmarContrasena.getPassword());
-        String presupuestoTexto = txtPresupuestoInicial.getText().trim();
-
-        // Validaciones
-        if (!validarCampos(nombre, edadTexto, contrasena, confirmarContrasena, presupuestoTexto)) {
-            return;
-        }
-
-        // Verificar si el usuario ya existe
-        if (usuarioDAO.existeUsuario(nombre)) {
-            JOptionPane.showMessageDialog(this,
-                    "El nombre de usuario ya existe. Elija otro nombre.",
-                    "Usuario Existente",
-                    JOptionPane.WARNING_MESSAGE);
-            txtNombre.selectAll();
-            txtNombre.requestFocus();
-            return;
-        }
-
         try {
-            byte edad = Byte.parseByte(edadTexto);
-            double presupuestoInicial = Double.parseDouble(presupuestoTexto);
+            // Obtener y validar datos
+            String nombre = txtNombre.getText().trim();
+            String contrasena = new String(txtContrasena.getPassword());
+            String confirmarContrasena = new String(txtConfirmarContrasena.getPassword());
+            String edadStr = txtEdad.getText().trim();
+            String tipoUso = (String) comboTipoUso.getSelectedItem();
+            String presupuestoStr = txtPresupuestoInicial.getText().trim();
 
-            // Crear nuevo usuario
-            Usuario nuevoUsuario = new Usuario(nombre, edad, tipoUso, contrasena, presupuestoInicial);
+            // Validaciones
+            if (nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El nombre de usuario es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+                txtNombre.requestFocus();
+                return;
+            }
 
-            // Intentar registrar el usuario
-            if (usuarioDAO.registrarUsuario(nuevoUsuario)) {
+            if (contrasena.length() < 4) {
+                JOptionPane.showMessageDialog(this, "La contraseña debe tener al menos 4 caracteres", "Error", JOptionPane.ERROR_MESSAGE);
+                txtContrasena.requestFocus();
+                return;
+            }
+
+            if (!contrasena.equals(confirmarContrasena)) {
+                JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
+                txtConfirmarContrasena.requestFocus();
+                return;
+            }
+
+            int edad = Integer.parseInt(edadStr);
+            if (edad < 13 || edad > 120) {
+                JOptionPane.showMessageDialog(this, "La edad debe estar entre 13 y 120 años", "Error", JOptionPane.ERROR_MESSAGE);
+                txtEdad.requestFocus();
+                return;
+            }
+
+            double presupuestoInicial = Double.parseDouble(presupuestoStr);
+            if (presupuestoInicial <= 0) {
+                JOptionPane.showMessageDialog(this, "El presupuesto inicial debe ser mayor a cero", "Error", JOptionPane.ERROR_MESSAGE);
+                txtPresupuestoInicial.requestFocus();
+                return;
+            }
+
+            // Crear usuario
+            Usuario nuevoUsuario = new Usuario();
+            nuevoUsuario.setNombre(nombre);
+            nuevoUsuario.setContrasena(contrasena);
+            nuevoUsuario.setEdad((byte) edad);
+            nuevoUsuario.setTipoUso(tipoUso);
+            nuevoUsuario.setPresupuestoInicial(presupuestoInicial);
+
+            // Registrar usuario
+            if (controlador.registrarUsuario(nuevoUsuario)) {
                 JOptionPane.showMessageDialog(this,
-                        "¡Cuenta creada exitosamente!\nYa puede iniciar sesión.",
+                        String.format("✅ ¡Cuenta creada exitosamente!\n\n" +
+                                "Bienvenido %s\n\n" +
+                                "💡 Consejos iniciales:\n" +
+                                "• Registra tus primeros ingresos y gastos\n" +
+                                "• Establece metas de ahorro realistas\n" +
+                                "• Revisa tus finanzas semanalmente\n\n" +
+                                "¡Comienza tu viaje hacia la libertad financiera!",
+                                nombre),
                         "Registro Exitoso",
                         JOptionPane.INFORMATION_MESSAGE);
+
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "Error al crear la cuenta. Intente nuevamente.",
+                        "Error al crear la cuenta. El nombre de usuario ya existe.",
                         "Error de Registro",
                         JOptionPane.ERROR_MESSAGE);
+                txtNombre.requestFocus();
             }
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Verifique que la edad y el presupuesto sean números válidos.",
-                    "Datos Inválidos",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private boolean validarCampos(String nombre, String edadTexto, String contrasena,
-                                  String confirmarContrasena, String presupuestoTexto) {
-
-        // Validar campos vacíos
-        if (nombre.isEmpty()) {
-            mostrarError("El nombre de usuario es obligatorio.", txtNombre);
-            return false;
-        }
-
-        if (edadTexto.isEmpty()) {
-            mostrarError("La edad es obligatoria.", txtEdad);
-            return false;
-        }
-
-        if (contrasena.isEmpty()) {
-            mostrarError("La contraseña es obligatoria.", txtContrasena);
-            return false;
-        }
-
-        if (confirmarContrasena.isEmpty()) {
-            mostrarError("Debe confirmar la contraseña.", txtConfirmarContrasena);
-            return false;
-        }
-
-        // Validar longitud del nombre de usuario
-        if (nombre.length() < 3) {
-            mostrarError("El nombre de usuario debe tener al menos 3 caracteres.", txtNombre);
-            return false;
-        }
-
-        // Validar edad
-        try {
-            byte edad = Byte.parseByte(edadTexto);
-            if (edad < 1 || edad > 120) {
-                mostrarError("La edad debe estar entre 1 y 120 años.", txtEdad);
-                return false;
-            }
-        } catch (NumberFormatException ex) {
-            mostrarError("La edad debe ser un número válido.", txtEdad);
-            return false;
-        }
-
-        // Validar longitud de contraseña
-        if (contrasena.length() < 4) {
-            mostrarError("La contraseña debe tener al menos 4 caracteres.", txtContrasena);
-            return false;
-        }
-
-        // Validar que las contraseñas coincidan
-        if (!contrasena.equals(confirmarContrasena)) {
-            mostrarError("Las contraseñas no coinciden.", txtConfirmarContrasena);
-            return false;
-        }
-
-        // Validar presupuesto inicial
-        if (presupuestoTexto.isEmpty()) {
-            txtPresupuestoInicial.setText("0.00");
-        } else {
-            try {
-                double presupuesto = Double.parseDouble(presupuestoTexto);
-                if (presupuesto < 0) {
-                    mostrarError("El presupuesto inicial no puede ser negativo.", txtPresupuestoInicial);
-                    return false;
-                }
-            } catch (NumberFormatException ex) {
-                mostrarError("El presupuesto inicial debe ser un número válido.", txtPresupuestoInicial);
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private void mostrarError(String mensaje, JComponent componente) {
-        JOptionPane.showMessageDialog(this, mensaje, "Error de Validación", JOptionPane.ERROR_MESSAGE);
-        componente.requestFocus();
-        if (componente instanceof JTextField) {
-            ((JTextField) componente).selectAll();
+            JOptionPane.showMessageDialog(this, "Por favor ingrese valores numéricos válidos", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

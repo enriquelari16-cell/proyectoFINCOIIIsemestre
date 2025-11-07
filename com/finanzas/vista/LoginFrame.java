@@ -1,6 +1,5 @@
 package finanzas.vista;
 
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import finanzas.dao.UsuarioDAO;
 import finanzas.modelo.Usuario;
 
@@ -10,19 +9,17 @@ import java.awt.*;
 public class LoginFrame extends JFrame {
     private JTextField txtNombre;
     private JPasswordField txtContrasena;
+    private JButton btnLogin;
     private UsuarioDAO usuarioDAO;
 
     public LoginFrame() {
         usuarioDAO = new UsuarioDAO();
+        // Configurar Look and Feel moderno
         try {
-            FlatIntelliJLaf.setup(); // Estilo moderno
-        } catch (Exception e) {
-            // Si FlatLaf no está disponible, usar Look and Feel por defecto
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            // Usar Look and Feel por defecto si hay error
+            ex.printStackTrace();
         }
         initComponents();
     }
@@ -62,6 +59,9 @@ public class LoginFrame extends JFrame {
         btnLogin.setForeground(Color.WHITE);
         btnLogin.setPreferredSize(new Dimension(130, 35));
         btnLogin.addActionListener(e -> iniciarSesion());
+
+        // Guardar referencia para deshabilitar durante login
+        this.btnLogin = btnLogin;
 
         JButton btnRegistro = new JButton("Crear Cuenta");
         btnRegistro.setBackground(new Color(100, 100, 200));
@@ -105,18 +105,21 @@ public class LoginFrame extends JFrame {
 
         // Mostrar indicador de carga
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        btnLogin.setEnabled(false);
 
         try {
-            Usuario usuario = usuarioDAO.autenticarUsuario(nombre, contrasena);
-            if (usuario != null) {
+            // Usar el controlador para autenticación
+            finanzas.controlador.FinanzasController controlador = new finanzas.controlador.FinanzasController();
+
+            if (controlador.autenticarUsuario(nombre, contrasena)) {
                 // Login exitoso
                 SwingUtilities.invokeLater(() -> {
-                    new MainFrame(usuario).setVisible(true);
+                    new MainFrame(controlador.getUsuarioActual()).setVisible(true);
                     dispose();
                 });
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "Credenciales incorrectas",
+                        "Credenciales incorrectas. Verifique su usuario y contraseña.",
                         "Error de Autenticación",
                         JOptionPane.ERROR_MESSAGE);
                 txtContrasena.setText("");
@@ -127,15 +130,18 @@ public class LoginFrame extends JFrame {
                     "Error al conectar con la base de datos: " + e.getMessage(),
                     "Error de Conexión",
                     JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         } finally {
             setCursor(Cursor.getDefaultCursor());
+            btnLogin.setEnabled(true);
         }
     }
 
     private void mostrarRegistro() {
-        // CORRECCIÓN PRINCIPAL: Usar el diálogo específico para registro
         try {
-            RegistroDialog registro = new RegistroDialog(this, usuarioDAO);
+            // Crear controlador para el registro
+            finanzas.controlador.FinanzasController controladorRegistro = new finanzas.controlador.FinanzasController();
+            RegistroDialog registro = new RegistroDialog(this, controladorRegistro);
             registro.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,

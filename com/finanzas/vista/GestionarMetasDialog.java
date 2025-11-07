@@ -1,8 +1,7 @@
 package finanzas.vista;
 
-import finanzas.modelo.Usuario;
+import finanzas.controlador.FinanzasController;
 import finanzas.modelo.Meta;
-import finanzas.dao.MetaDAO;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
@@ -10,19 +9,17 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class GestionarMetasDialog extends JDialog {
-    private Usuario usuario;
-    private MetaDAO metaDAO;
+    private FinanzasController controlador;
     private JTable tableMetas;
     private DefaultTableModel tableModel;
     private JTextField txtNombre, txtMontoObjetivo, txtAhorroActual;
     private JTextArea txtDescripcion;
 
-    public GestionarMetasDialog(JFrame parent, Usuario usuario) {
-        super(parent, "Gestionar Metas", true);
-        this.usuario = usuario;
-        this.metaDAO = new MetaDAO();
+    public GestionarMetasDialog(JFrame parent, FinanzasController controlador) {
+        super(parent, "Gestionar Metas Financieras", true);
+        this.controlador = controlador;
 
-        setSize(700, 500);
+        setSize(800, 600);
         setLocationRelativeTo(parent);
         initUI();
         cargarMetas();
@@ -84,9 +81,9 @@ public class GestionarMetasDialog extends JDialog {
 
     private JPanel createTablePanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("Mis Metas"));
+        panel.setBorder(BorderFactory.createTitledBorder("Mis Metas Financieras"));
 
-        String[] columnas = {"ID", "Nombre", "Monto Objetivo", "Ahorro Actual", "Progreso %", "Descripción"};
+        String[] columnas = {"ID", "Nombre", "Objetivo", "Ahorrado", "Progreso", "Estado", "Descripción"};
         tableModel = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -96,10 +93,45 @@ public class GestionarMetasDialog extends JDialog {
 
         tableMetas = new JTable(tableModel);
         tableMetas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableMetas.setRowHeight(25);
+
+        // Configurar colores para filas completadas
+        tableMetas.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Verificar si la meta está completada (columna 5 contiene el estado)
+                Object estadoValue = table.getValueAt(row, 5);
+                if (estadoValue != null && estadoValue.toString().contains("Completada")) {
+                    setBackground(new java.awt.Color(200, 255, 200)); // Verde claro
+                    setForeground(java.awt.Color.BLACK);
+                } else {
+                    setBackground(java.awt.Color.WHITE);
+                    setForeground(java.awt.Color.BLACK);
+                }
+
+                if (isSelected) {
+                    setBackground(table.getSelectionBackground());
+                    setForeground(table.getSelectionForeground());
+                }
+
+                return this;
+            }
+        });
 
         // Ocultar columna ID
         tableMetas.getColumnModel().getColumn(0).setMinWidth(0);
         tableMetas.getColumnModel().getColumn(0).setMaxWidth(0);
+
+        // Configurar anchos de columna
+        tableMetas.getColumnModel().getColumn(1).setPreferredWidth(120); // Nombre
+        tableMetas.getColumnModel().getColumn(2).setPreferredWidth(80);  // Objetivo
+        tableMetas.getColumnModel().getColumn(3).setPreferredWidth(80);  // Ahorrado
+        tableMetas.getColumnModel().getColumn(4).setPreferredWidth(70);  // Progreso
+        tableMetas.getColumnModel().getColumn(5).setPreferredWidth(100); // Estado
+        tableMetas.getColumnModel().getColumn(6).setPreferredWidth(200); // Descripción
 
         JScrollPane scrollPane = new JScrollPane(tableMetas);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -138,94 +170,152 @@ public class GestionarMetasDialog extends JDialog {
             String descripcion = txtDescripcion.getText().trim();
 
             if (nombre.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+                JOptionPane.showMessageDialog(this, "El nombre es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+                txtNombre.requestFocus();
+                return;
+            }
+
+            if (montoObjetivo <= 0) {
+                JOptionPane.showMessageDialog(this, "El monto objetivo debe ser mayor a cero", "Error", JOptionPane.ERROR_MESSAGE);
+                txtMontoObjetivo.requestFocus();
+                return;
+            }
+
+            if (ahorroActual < 0) {
+                JOptionPane.showMessageDialog(this, "El ahorro actual no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
+                txtAhorroActual.requestFocus();
                 return;
             }
 
             Meta meta = new Meta();
-            meta.setUsuarioId(usuario.getId());
+            meta.setUsuarioId(controlador.getUsuarioActual().getId());
             meta.setNombre(nombre);
             meta.setMontoObjetivo(montoObjetivo);
             meta.setAhorroActual(ahorroActual);
             meta.setDescripcion(descripcion);
 
-            if (metaDAO.crearMeta(meta)) {
-                JOptionPane.showMessageDialog(this, "Meta agregada exitosamente");
+            if (controlador.crearMeta(meta)) {
+                JOptionPane.showMessageDialog(this, "✅ Meta agregada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 limpiarFormulario();
                 cargarMetas();
+
+                // Mostrar consejo educativo
+                if (montoObjetivo > controlador.getUsuarioActual().getPresupuestoActual() * 2) {
+                    JOptionPane.showMessageDialog(this,
+                            "💡 Consejo: Esta meta es ambiciosa. Considera dividir en metas más pequeñas y alcanzables.",
+                            "Consejo Financiero",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Error al agregar la meta");
+                JOptionPane.showMessageDialog(this, "Error al agregar la meta", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Ingrese valores numéricos válidos");
+            JOptionPane.showMessageDialog(this, "Ingrese valores numéricos válidos", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void actualizarAhorro(ActionEvent e) {
         int selectedRow = tableMetas.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una meta");
+            JOptionPane.showMessageDialog(this, "Seleccione una meta para actualizar", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
             int metaId = (Integer) tableModel.getValueAt(selectedRow, 0);
-            String input = JOptionPane.showInputDialog(this, "Ingrese el nuevo monto de ahorro:");
+            String nombreMeta = (String) tableModel.getValueAt(selectedRow, 1);
+            String ahorroActual = ((String) tableModel.getValueAt(selectedRow, 3)).replace("$", "");
+
+            String input = JOptionPane.showInputDialog(this,
+                    String.format("Meta: %s\nAhorro actual: $%s\n\nIngrese el nuevo monto de ahorro:", nombreMeta, ahorroActual),
+                    "Actualizar Ahorro",
+                    JOptionPane.QUESTION_MESSAGE);
 
             if (input != null && !input.trim().isEmpty()) {
-                double nuevoAhorro = Double.parseDouble(input);
+                double nuevoAhorro = Double.parseDouble(input.trim());
 
-                if (metaDAO.actualizarAhorro(metaId, nuevoAhorro)) {
-                    JOptionPane.showMessageDialog(this, "Ahorro actualizado");
+                if (nuevoAhorro < 0) {
+                    JOptionPane.showMessageDialog(this, "El ahorro no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (controlador.actualizarAhorroMeta(metaId, nuevoAhorro)) {
+                    JOptionPane.showMessageDialog(this, "✅ Ahorro actualizado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     cargarMetas();
+
+                    // Verificar si la meta se completó
+                    List<Meta> metas = controlador.obtenerMetasUsuario();
+                    for (Meta meta : metas) {
+                        if (meta.getId() == metaId && meta.isCompleta()) {
+                            JOptionPane.showMessageDialog(this,
+                                    String.format("🎉 ¡Felicitaciones! Has completado la meta '%s'", meta.getNombre()),
+                                    "Meta Completada",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            break;
+                        }
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Error al actualizar");
+                    JOptionPane.showMessageDialog(this, "Error al actualizar el ahorro", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Ingrese un valor numérico válido");
+            JOptionPane.showMessageDialog(this, "Ingrese un valor numérico válido", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void eliminarMeta(ActionEvent e) {
         int selectedRow = tableMetas.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una meta");
+            JOptionPane.showMessageDialog(this, "Seleccione una meta para eliminar", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
+        String nombreMeta = (String) tableModel.getValueAt(selectedRow, 1);
         int confirm = JOptionPane.showConfirmDialog(this,
-                "¿Está seguro de eliminar esta meta?",
-                "Confirmar",
-                JOptionPane.YES_NO_OPTION);
+                String.format("¿Está seguro de eliminar la meta '%s'?\nEsta acción no se puede deshacer.", nombreMeta),
+                "Confirmar Eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
             int metaId = (Integer) tableModel.getValueAt(selectedRow, 0);
 
-            if (metaDAO.eliminarMeta(metaId)) {
-                JOptionPane.showMessageDialog(this, "Meta eliminada");
+            if (controlador.eliminarMeta(metaId)) {
+                JOptionPane.showMessageDialog(this, "✅ Meta eliminada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 cargarMetas();
             } else {
-                JOptionPane.showMessageDialog(this, "Error al eliminar");
+                JOptionPane.showMessageDialog(this, "Error al eliminar la meta", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
     private void cargarMetas() {
         tableModel.setRowCount(0);
-        List<Meta> metas = metaDAO.obtenerMetasPorUsuario(usuario.getId());
+        List<Meta> metas = controlador.obtenerMetasUsuario();
 
         for (Meta meta : metas) {
-            double progreso = (meta.getAhorroActual() / meta.getMontoObjetivo()) * 100;
+            double progreso = meta.getProgreso();
+            String estado = meta.isCompleta() ? "✅ Completada" : "⏳ En progreso";
+
             Object[] fila = {
                     meta.getId(),
                     meta.getNombre(),
                     String.format("$%.2f", meta.getMontoObjetivo()),
                     String.format("$%.2f", meta.getAhorroActual()),
                     String.format("%.1f%%", progreso),
+                    estado,
                     meta.getDescripcion()
             };
             tableModel.addRow(fila);
+        }
+
+        // Actualizar título de la tabla con estadísticas
+        if (metas.isEmpty()) {
+            setTitle("Gestionar Metas Financieras - No tienes metas registradas");
+        } else {
+            long completadas = metas.stream().filter(Meta::isCompleta).count();
+            setTitle(String.format("Gestionar Metas Financieras - %d metas (%d completadas)",
+                    metas.size(), completadas));
         }
     }
 
