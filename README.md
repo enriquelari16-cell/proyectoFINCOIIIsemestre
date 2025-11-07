@@ -96,24 +96,41 @@ private static final String USUARIO = "tu_usuario";
 private static final String CONTRASENA = "tu_contraseña";
 ```
 
-### 3. Compilación
+### 3. Configuración del Conector MySQL
+
+**Importante:** El proyecto incluye compatibilidad con múltiples versiones del conector MySQL.
+
+#### Opción A: Usar MySQL Connector/J 8.0.33 (Recomendado)
+1. Descarga desde: https://dev.mysql.com/downloads/connector/j/
+2. Selecciona "Platform Independent"
+3. Extrae `mysql-connector-java-8.0.33.jar`
+4. Colócalo en `com/lib/mysql-connector-java-8.0.33.jar`
+
+#### Opción B: Usar versión existente
+- El proyecto ya incluye configuración compatible con MySQL Connector/J 9.x
+- Si tienes problemas, usa la Opción A
+
+### 4. Compilación
 
 ```bash
 # Compilar aplicación gráfica
-javac -cp "com/lib/mysql-connector-j-9.3.0.jar;." com/finanzas/Main.java com/finanzas/controlador/*.java com/finanzas/modelo/*.java com/finanzas/dao/*.java com/finanzas/vista/*.java
+javac -cp "com/lib/mysql-connector-java-8.0.33.jar;." com/finanzas/Main.java com/finanzas/controlador/*.java com/finanzas/modelo/*.java com/finanzas/dao/*.java com/finanzas/vista/*.java
 
 # Compilar aplicación de terminal
-javac -cp "com/lib/mysql-connector-j-9.3.0.jar;." com/finanzas/MainTerminal.java com/finanzas/controlador/*.java com/finanzas/modelo/*.java com/finanzas/dao/*.java com/finanzas/vista/*.java
+javac -cp "com/lib/mysql-connector-java-8.0.33.jar;." com/finanzas/MainTerminal.java com/finanzas/controlador/*.java com/finanzas/modelo/*.java com/finanzas/dao/*.java com/finanzas/vista/*.java
 ```
 
-### 4. Ejecución
+### 5. Ejecución
 
 ```bash
 # Ejecutar aplicación gráfica
-java -cp "com/lib/mysql-connector-j-9.3.0.jar;." finanzas.Main
+java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.Main
 
 # Ejecutar aplicación de terminal
-java -cp "com/lib/mysql-connector-j-9.3.0.jar;." finanzas.MainTerminal
+java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.MainTerminal
+
+# Probar conexión a base de datos
+java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.TestConexionSimple
 ```
 
 ## 📊 Funcionalidades Detalladas
