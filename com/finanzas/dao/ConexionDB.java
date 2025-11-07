@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConexionDB {
     private static final String URL = "jdbc:mysql://localhost:3306/finanzas_personales";
-    private static final String USUARIO = "ander"; // Cambiar por tu usuario
+    private static final String USUARIO = "root"; // Cambiar por tu usuario
     private static final String CONTRASENA = ""; // Cambiar por tu contraseña
 
     public static Connection getConnection() throws SQLException {
