@@ -120,7 +120,23 @@ javac -cp "com/lib/mysql-connector-java-8.0.33.jar;." com/finanzas/Main.java com
 javac -cp "com/lib/mysql-connector-java-8.0.33.jar;." com/finanzas/MainTerminal.java com/finanzas/controlador/*.java com/finanzas/modelo/*.java com/finanzas/dao/*.java com/finanzas/vista/*.java
 ```
 
-### 5. Ejecución
+### 5. Configuración de Base de Datos
+
+#### Opción A: Configuración Automática (Recomendado)
+```bash
+# Ejecutar configuración automática
+java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.DatabaseSetup
+```
+
+#### Opción B: Configuración Manual
+1. Abre MySQL Workbench, phpMyAdmin, o línea de comandos MySQL
+2. Ejecuta el script `setup_database.sql`:
+   ```sql
+   SOURCE setup_database.sql;
+   ```
+3. O copia y pega el contenido del archivo en el cliente MySQL
+
+### 6. Ejecución
 
 ```bash
 # Ejecutar aplicación gráfica
@@ -131,6 +147,9 @@ java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.MainTerminal
 
 # Probar conexión a base de datos
 java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.TestConexionSimple
+
+# Configurar base de datos automáticamente
+java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.DatabaseSetup
 ```
 
 ## 📊 Funcionalidades Detalladas
