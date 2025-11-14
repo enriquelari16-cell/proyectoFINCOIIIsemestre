@@ -4,6 +4,8 @@ import finanzas.dao.*;
 import finanzas.modelo.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import finanzas.dao.UsuarioDAO;
+import finanzas.modelo.Usuario;
 
 /**
  * Controlador principal que maneja la lógica de negocio de la aplicación financiera.

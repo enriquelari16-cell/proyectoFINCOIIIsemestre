@@ -1,7 +1,7 @@
-package finanzas.vista;
+package com.finanzas.vista;
 
-import finanzas.controlador.FinanzasController;
-import finanzas.modelo.Usuario;
+import com.finanzas.controlador.FinanzasController;
+import com.finanzas.modelo.Usuario;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

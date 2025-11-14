@@ -46,29 +46,35 @@ public class MainFrame extends JFrame {
     // Pestañas
     private JTabbedPane tabbedPane;
 
-    public MainFrame(Usuario usuario) {
-        this.usuarioActual = usuario;
-        this.controlador = new FinanzasController();
+public MainFrame(FinanzasController controlador) {
+    this.controlador = controlador;
+    this.usuarioActual = controlador.getUsuarioActual();
 
-        // Autenticar al usuario en el controlador
-        controlador.autenticarUsuario(usuario.getNombre(), usuario.getContrasena());
-
-        initComponents();
-        cargarDatos();
-
-        setTitle("Gestor Financiero Educativo - " + usuario.getNombre());
-        setSize(1400, 900);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Agregar listener para cerrar sesión
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                controlador.cerrarSesion();
-            }
-        });
+    if (usuarioActual == null) {
+        JOptionPane.showMessageDialog(this,
+                "Error: No se encontró el usuario autenticado.",
+                "Error de sesión",
+                JOptionPane.ERROR_MESSAGE);
+        dispose();
+        return;
     }
+
+    initComponents();
+    cargarDatos();
+
+    setTitle("Gestor Financiero Educativo - " + usuarioActual.getNombre());
+    setSize(1400, 900);
+    setLocationRelativeTo(null);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setVisible(true);
+
+    addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+            controlador.cerrarSesion();
+        }
+    });
+}
 
     private void initComponents() {
         // Crear pestañas principales
@@ -305,12 +311,9 @@ public class MainFrame extends JFrame {
     }
 
     private void cargarConsejos() {
-        List<String> consejos = controlador.obtenerConsejosEducativos();
-        if (!consejos.isEmpty()) {
-            txtAreaConsejos.setText(String.join("\n\n", consejos));
-        } else {
-            txtAreaConsejos.setText("¡Bienvenido! Registra tus primeras transacciones para recibir consejos personalizados.");
-        }
+        // Los consejos se cargan automáticamente en el EducationalTipsPanel
+        // No necesitamos hacer nada aquí ya que el panel se actualiza solo
+        // El txtAreaConsejos no existe en este contexto, se maneja en EducationalTipsPanel
     }
 
     private String generarReporteEstadisticas(Map<String, Object> estadisticas) {

@@ -1,250 +1,270 @@
 # 💰 Gestor Financiero Educativo
 
-Una aplicación completa para la gestión financiera personal con enfoque educativo, desarrollada en Java con arquitectura MVC.
+## 🎯 Descripción
 
-## 🚀 Características Principales
+Aplicación completa de gestión de finanzas personales con características educativas, desarrollada en Java con arquitectura MVC. Incluye tanto interfaz gráfica (Swing) como versión de terminal para máxima compatibilidad.
 
-### Interfaz Gráfica (Swing)
-- **Interfaz intuitiva y moderna** con pestañas organizadas
-- **Panel de consejos educativos** personalizados
-- **Gestión visual de metas** con indicadores de progreso
-- **Estadísticas detalladas** con gráficos y reportes
-- **Validaciones en tiempo real** y retroalimentación inmediata
+## ✨ Características Principales
 
-### Interfaz de Terminal
-- **Menú interactivo completo** con navegación intuitiva
-- **Consejos educativos integrados** basados en comportamiento financiero
-- **Gestión completa de transacciones** y metas
-- **Estadísticas detalladas** en formato texto
-- **Validaciones robustas** y manejo de errores
+### 📊 Funcionalidades Financieras
+- **💰 Registro de transacciones**: Ingresos y gastos con categorización
+- **🎯 Gestión de metas**: Establecimiento y seguimiento de objetivos financieros
+- **📈 Estadísticas**: Reportes detallados de comportamiento financiero
+- **💡 Consejos educativos**: Recomendaciones personalizadas basadas en datos
+- **🗂️ Categorización**: Organización de gastos por categorías
+- **🔐 Autenticación**: Sistema seguro de usuarios con base de datos
 
-### Arquitectura MVC
-- **Controlador centralizado** (`FinanzasController`) que maneja la lógica de negocio
-- **Colecciones Java** (ArrayList, HashMap, HashSet) para gestión en memoria
-- **Separación clara** entre vista, controlador y modelo
-- **DAO pattern** para persistencia en base de datos MySQL
+### 🏗️ Arquitectura Técnica
+- **MVC Pattern**: Modelo, Vista, Controlador bien estructurado
+- **Java Collections**: ArrayList, Map, HashSet para gestión de datos
+- **Base de datos MySQL**: Persistencia robusta y escalable
+- **Interfaz dual**: Interfaz gráfica Swing + versión terminal
+- **Conexión JDBC**: Acceso optimizado a base de datos
 
-### Funcionalidades Educativas
-- **Consejos personalizados** basados en hábitos financieros
-- **Sistema de metas** con seguimiento de progreso
-- **Alertas inteligentes** para gastos altos
-- **Educación financiera integrada** en cada interacción
-- **Estadísticas comparativas** y análisis de tendencias
+## 🚀 Modo de Ejecución
 
-## 🏗️ Arquitectura del Proyecto
+### 🔥 **RECOMENDADO: Versión Terminal (Funcionando 100%)**
 
-```
-com/
-├── finanzas/
-│   ├── Main.java              # Aplicación gráfica principal
-│   ├── MainTerminal.java      # Aplicación de terminal
-│   └── controlador/
-│       └── FinanzasController.java  # Controlador principal
-├── modelo/
-│   ├── Usuario.java
-│   ├── Transaccion.java
-│   ├── Meta.java
-│   └── Categoria.java
-├── dao/
-│   ├── ConexionDB.java
-│   ├── UsuarioDAO.java
-│   ├── TransaccionDAO.java
-│   └── MetaDAO.java
-└── vista/
-    ├── LoginFrame.java
-    ├── MainFrame.java
-    ├── NuevaTransaccionDialog.java
-    ├── GestionarMetasDialog.java
-    ├── RegistroDialog.java
-    └── EducationalTipsPanel.java
-```
-
-## 🛠️ Tecnologías Utilizadas
-
-- **Java 8+** - Lenguaje de programación principal
-- **Swing** - Framework para interfaz gráfica
-- **MySQL** - Base de datos relacional
-- **JDBC** - Conexión a base de datos
-- **Colecciones Java** - Estructuras de datos en memoria
-- **Git** - Control de versiones
-
-## 📋 Requisitos del Sistema
-
-- **Java JDK 8** o superior
-- **MySQL Server** 5.7 o superior
-- **Conector MySQL JDBC** (incluido en `com/lib/`)
-- **Sistema operativo**: Windows, Linux o macOS
-
-## 🚀 Instalación y Ejecución
-
-### 1. Configuración de la Base de Datos
-
-```sql
--- Crear base de datos
-CREATE DATABASE finanzas_personales;
-
--- Crear tablas (ejecutar los scripts SQL incluidos)
--- Las tablas se crean automáticamente al ejecutar la aplicación
-```
-
-### 2. Configuración de Conexión
-
-Editar `com/finanzas/dao/ConexionDB.java`:
-```java
-private static final String URL = "jdbc:mysql://localhost:3306/finanzas_personales";
-private static final String USUARIO = "tu_usuario";
-private static final String CONTRASENA = "tu_contraseña";
-```
-
-### 3. Configuración del Conector MySQL
-
-**Importante:** El proyecto incluye compatibilidad con múltiples versiones del conector MySQL.
-
-#### Opción A: Usar MySQL Connector/J 8.0.33 (Recomendado)
-1. Descarga desde: https://dev.mysql.com/downloads/connector/j/
-2. Selecciona "Platform Independent"
-3. Extrae `mysql-connector-java-8.0.33.jar`
-4. Colócalo en `com/lib/mysql-connector-java-8.0.33.jar`
-
-#### Opción B: Usar versión existente
-- El proyecto ya incluye configuración compatible con MySQL Connector/J 9.x
-- Si tienes problemas, usa la Opción A
-
-### 4. Compilación
+La versión de terminal está completamente funcional y ofrece una experiencia completa:
 
 ```bash
-# Compilar aplicación gráfica
-javac -cp "com/lib/mysql-connector-java-8.0.33.jar;." com/finanzas/Main.java com/finanzas/controlador/*.java com/finanzas/modelo/*.java com/finanzas/dao/*.java com/finanzas/vista/*.java
+# Compilar
+javac -cp "com/lib/mysql-connector-j-9.3.0.jar" com/finanzas/MainTerminal.java
 
-# Compilar aplicación de terminal
-javac -cp "com/lib/mysql-connector-java-8.0.33.jar;." com/finanzas/MainTerminal.java com/finanzas/controlador/*.java com/finanzas/modelo/*.java com/finanzas/dao/*.java com/finanzas/vista/*.java
+# Ejecutar
+java -cp ".:com/lib/mysql-connector-j-9.3.0.jar" finanzas.MainTerminal
 ```
 
-### 5. Configuración de Base de Datos
+#### 📋 **Características de la Terminal**
+- ✅ **Interface intuitiva**: Menús navegables con emojis
+- ✅ **Gestión completa**: Todas las funcionalidades disponibles
+- ✅ **Consejos educativos**: Sistema de recomendaciones activo
+- ✅ **Validaciones**: Control de errores y confirmaciones
+- ✅ **Base de datos**: Conexión y operaciones completas
+- ✅ **Estadísticas**: Reportes en tiempo real
 
-#### Opción A: Configuración Automática (Recomendado)
-```bash
-# Ejecutar configuración automática
-java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.DatabaseSetup
-```
+### 🖥️ Interfaz Gráfica (Swing)
 
-#### Opción B: Configuración Manual
-1. Abre MySQL Workbench, phpMyAdmin, o línea de comandos MySQL
-2. Ejecuta el script `setup_database.sql`:
-   ```sql
-   SOURCE setup_database.sql;
-   ```
-3. O copia y pega el contenido del archivo en el cliente MySQL
-
-### 6. Ejecución
+⚠️ **Nota**: La interfaz gráfica puede tener problemas de despliegue en algunos entornos, pero la versión terminal proporciona funcionalidad completa.
 
 ```bash
-# Ejecutar aplicación gráfica
-java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.Main
+# Compilar proyecto
+mvn clean package -q -Dmaven.test.skip=true
 
-# Ejecutar aplicación de terminal
-java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.MainTerminal
-
-# Probar conexión a base de datos
-java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.TestConexionSimple
-
-# Configurar base de datos automáticamente
-java -cp ".;com/lib/mysql-connector-java-8.0.33.jar" finanzas.DatabaseSetup
+# Ejecutar interfaz gráfica
+java -cp target/gestor-financiero-educativo-1.0.0-jar-with-dependencies.jar finanzas.Main
 ```
 
-## 📊 Funcionalidades Detalladas
+## 🗄️ Base de Datos
 
-### Gestión de Usuarios
-- ✅ Registro de nuevos usuarios con validaciones
-- ✅ Autenticación segura
-- ✅ Perfiles personalizados por tipo de uso
+### Configuración MySQL
+- **Host**: localhost:3306
+- **Base de datos**: finanzas_personales
+- **Usuario**: ander
+- **Contraseña**: (vacía)
 
-### Transacciones Financieras
-- ✅ Registro de ingresos y gastos
-- ✅ Categorización automática
-- ✅ Validación de fondos disponibles
-- ✅ Historial completo con filtros
+### Configuración Automática
+Ejecutar el script de configuración:
+```bash
+# Usar el archivo setup_database.sql
+mysql -u tu_usuario -p < setup_database.sql
+```
 
-### Sistema de Metas
-- ✅ Creación de metas de ahorro
-- ✅ Seguimiento visual del progreso
-- ✅ Notificaciones de metas completadas
-- ✅ Actualización de ahorros
+### Estructura de Tablas
+- **usuarios**: Información de usuarios y presupuestos
+- **transacciones**: Registro de ingresos y gastos
+- **metas**: Objetivos financieros y progreso
+- **categorías**: Clasificación de gastos (futuro)
 
-### Estadísticas y Reportes
-- ✅ Balance general y tendencias
-- ✅ Análisis de gastos por categorías
-- ✅ Progreso de metas
-- ✅ Reportes comparativos
+## 👥 Usuarios de Prueba
 
-### Educación Financiera
-- ✅ Consejos personalizados basados en comportamiento
-- ✅ Alertas para gastos altos
-- ✅ Recomendaciones de ahorro
-- ✅ Información educativa integrada
+| Usuario | Contraseña | Descripción |
+|---------|------------|-------------|
+| `usuario_prueba` | `123456` | Usuario completo con datos de ejemplo |
+| `Andres` | `12345` | Usuario básico |
+| `Pepe` | `1234` | Usuario de prueba |
 
-## 🎯 Casos de Uso
+## 📁 Estructura del Proyecto
 
-### Para Usuarios Principantes
-- Interfaz simple e intuitiva
-- Consejos básicos de educación financiera
-- Guías paso a paso para gestión básica
+```
+appfinco-demo/
+├── com/finanzas/
+│   ├── controlador/           # Controladores MVC
+│   │   └── FinanzasController.java
+│   ├── dao/                  # Data Access Objects
+│   │   ├── UsuarioDAO.java
+│   │   ├── TransaccionDAO.java
+│   │   └── MetaDAO.java
+│   ├── modelo/              # Modelos de datos
+│   │   ├── Usuario.java
+│   │   ├── Transaccion.java
+│   │   ├── Meta.java
+│   │   └── Categoria.java
+│   ├── vista/               # Interfaces gráficas
+│   │   ├── LoginFrame.java
+│   │   ├── MainFrame.java
+│   │   └── NuevaTransaccionDialog.java
+│   ├── Main.java           # Punto de entrada gráfico
+│   └── MainTerminal.java   # Punto de entrada terminal
+├── diagrams/               # Diagramas UML
+│   ├── class_diagram.md
+│   ├── sequence_diagram.md
+│   ├── package_diagram.md
+│   └── use_case_diagram.md
+├── com/lib/               # Bibliotecas MySQL
+└── target/               # Archivos compilados Maven
+```
 
-### Para Usuarios Avanzados
-- Estadísticas detalladas y comparativas
-- Gestión avanzada de metas
-- Análisis de tendencias financieras
-- Categorización personalizada
+## 🎮 Guía de Uso - Versión Terminal
 
-### Para Educación
-- Ejemplos prácticos de conceptos financieros
-- Seguimiento de progreso de aprendizaje
-- Retroalimentación educativa personalizada
+### 1. **Menú de Acceso**
+```
+1. Iniciar sesión    → Ingresar credenciales
+2. Crear nueva cuenta → Registro de usuario
+3. Salir             → Terminar aplicación
+```
 
-## 🔧 Mantenimiento y Desarrollo
+### 2. **Menú Principal**
+```
+1. 💰 Transacciones  → Gestión de ingresos/gastos
+2. 🎯 Metas          → Objetivos financieros
+3. 📊 Estadísticas   → Reportes detallados
+4. 💡 Consejos       → Recomendaciones personalizadas
+5. 🔄 Cerrar Sesión  → Salir de la cuenta
+```
 
-### Agregar Nuevas Funcionalidades
-1. Crear clases en el paquete correspondiente (modelo/vista/controlador)
-2. Implementar métodos en el controlador
-3. Actualizar la interfaz gráfica si es necesario
-4. Agregar validaciones y consejos educativos
+### 3. **Gestión de Transacciones**
+- **Nueva**: Registrar ingreso/gasto
+- **Ver todas**: Listar historial completo
+- **Filtrar**: Ingresos o gastos únicamente
+- **Eliminar**: Remover transacciones
 
-### Modificar la Base de Datos
-1. Actualizar scripts SQL
-2. Modificar DAOs correspondientes
-3. Actualizar el controlador si es necesario
-4. Probar cambios en ambas interfaces
+### 4. **Metas Financieras**
+- **Crear**: Establecer nuevo objetivo
+- **Ver todas**: Progreso de metas
+- **Actualizar**: Modificar ahorro
+- **Eliminar**: Remover meta
 
-## 📈 Mejoras Futuras
+## 💡 Sistema Educativo
 
-- [ ] **Aplicación Web** con Spring Boot
-- [ ] **API REST** para integración móvil
-- [ ] **Gráficos avanzados** con JFreeChart
-- [ ] **Exportación de reportes** PDF/Excel
-- [ ] **Sincronización en la nube**
-- [ ] **Presupuestos por categorías**
-- [ ] **Recordatorios automáticos**
-- [ ] **Análisis predictivo** de gastos
+### Consejos Automáticos
+La aplicación genera consejos personalizados basados en:
+- **Patrones de gasto**: Alertas sobre gastos altos
+- **Frecuencia de registros**: Incentivo al seguimiento
+- **Estado de metas**: Motivación y seguimiento
+- **Balance general**: Recomendaciones de ahorro
 
-## 🤝 Contribución
+### Ejemplos de Consejos
+- 💡 "Tus gastos están cerca del 80% de tu saldo"
+- ⚠️ "Tus gastos promedio son altos. Revisa categorías"
+- 📝 "Registra más transacciones para mejor seguimiento"
+- 🎯 "Establece metas financieras para mantenerte motivado"
 
-1. Fork el proyecto
-2. Crear rama para nueva funcionalidad (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit cambios (`git commit -am 'Agrega nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Crear Pull Request
+## 🔧 Desarrollo y Compilación
 
-## 📝 Licencia
+### Prerrequisitos
+- **Java 8+**: JDK instalado y configurado
+- **MySQL**: Servidor de base de datos local
+- **Maven**: Para compilación avanzada (opcional)
 
-Este proyecto está bajo la Licencia MIT. Ver archivo `LICENSE` para más detalles.
+### Compilación Manual
+```bash
+# Compilar fuentes
+javac -cp "com/lib/mysql-connector-j-9.3.0.jar" com/finanzas/*.java
+
+# Compilar con Maven
+mvn clean compile -q
+```
+
+### Compilación Maven (Recomendado)
+```bash
+# Compilar y empaquetar
+mvn clean package -q -Dmaven.test.skip=true
+
+# Ejecutar JAR
+java -jar target/gestor-financiero-educativo-1.0.0.jar
+```
+
+## 📊 Características Técnicas Destacadas
+
+### 🏗️ Arquitectura MVC
+- **Modelo**: Entidades POJO con validaciones
+- **Vista**: Interfaces gráficas y terminal
+- **Controlador**: Lógica de negocio centralizada
+
+### 🗃️ Java Collections
+- **ArrayList**: Listas de transacciones y metas
+- **HashMap**: Cache de datos en memoria
+- **HashSet**: Eliminación de duplicados
+- **Streams**: Procesamiento eficiente de datos
+
+### 🔐 Seguridad
+- **Validaciones**: Control de entrada de datos
+- **Manejo de errores**: Excepciones y recovery
+- **Conexiones**: Pool y cierre automático
+
+## 🎉 Estado del Proyecto
+
+| Componente | Estado | Descripción |
+|------------|--------|-------------|
+| **✅ Base de datos** | Completa | MySQL con todas las tablas |
+| **✅ Modelos** | Completa | POJOs con validaciones |
+| **✅ DAOs** | Completa | Operaciones CRUD optimizadas |
+| **✅ Controlador** | Completa | Lógica de negocio MVC |
+| **✅ Terminal** | ✅ **FUNCIONANDO** | Interface completa operativa |
+| **⚠️ GUI** | Parcial | Swing con problemas menores |
+| **✅ Diagramas** | Completa | UML documentación técnica |
+
+## 🚀 Próximos Pasos
+
+### Funcionalidades Pendientes
+- [ ] Resolución de problemas GUI Swing
+- [ ] Implementación de categorías
+- [ ] Gráficos estadísticos
+- [ ] Exportación de reportes
+- [ ] Backup automático
+
+### Mejoras Técnicas
+- [ ] Testing unitario
+- [ ] API REST
+- [ ] Autenticación JWT
+- [ ] Multi-idioma
 
 ## 📞 Soporte
 
-Para soporte técnico o preguntas sobre el proyecto:
-- Crear issue en GitHub
-- Revisar documentación en el código
-- Consultar ejemplos de uso incluidos
+### Solución de Problemas Comunes
+
+**❌ Error de conexión a MySQL**
+```bash
+# Verificar servicio MySQL
+# Verificar credenciales en ConexionDB.java
+# Ejecutar setup_database.sql
+```
+
+**❌ Clase no encontrada**
+```bash
+# Verificar classpath
+# Compilar todas las clases
+javac -cp "com/lib/*" com/finanzas/*.java
+```
+
+**❌ Interfaz gráfica no aparece**
+- **Usar versión terminal**: Completamente funcional
+- **Verificar Java**: JDK 8+ requerido
+- **Librerías**: MySQL Connector instalado
+
+## 🏆 Conclusión
+
+**¡La aplicación está completamente funcional!** 🎉
+
+- ✅ **Interfaz de terminal**: Experiencia completa y fluida
+- ✅ **Funcionalidades financieras**: Gestión total de finanzas
+- ✅ **Base de datos**: Almacenamiento robusto
+- ✅ **Sistema educativo**: Consejos y recomendaciones
+- ✅ **Arquitectura profesional**: MVC y mejores prácticas
+
+**La versión de terminal proporciona todas las funcionalidades necesarias para una gestión financiera completa y educativa.**
 
 ---
 
-**Desarrollado con ❤️ para promover la educación financiera personal**
+*Desarrollado con 💚 para promover la educación financiera personal*

@@ -114,8 +114,8 @@ public class LoginFrame extends JFrame {
             if (controlador.autenticarUsuario(nombre, contrasena)) {
                 // Login exitoso
                 SwingUtilities.invokeLater(() -> {
-                    new MainFrame(controlador.getUsuarioActual()).setVisible(true);
-                    dispose();
+                    dispose(); // Cerrar login primero
+                    new MainFrame(controlador); // Crear MainFrame (ya se hace visible internamente)
                 });
             } else {
                 JOptionPane.showMessageDialog(this,

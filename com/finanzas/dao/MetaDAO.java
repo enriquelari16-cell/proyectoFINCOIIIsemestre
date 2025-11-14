@@ -98,7 +98,7 @@ public class MetaDAO {
         String sql = "SELECT " +
                 "COUNT(*) as total_metas, " +
                 "SUM(CASE WHEN ahorro_actual >= monto_objetivo THEN 1 ELSE 0 END) as metas_completadas, " +
-                "AVG((ahorro_actual / monto_objetivo) * 100) as progreso_promedio, " +
+                "AVG((ahorro_actual / NULLIF(monto_objetivo, 0)) * 100) as progreso_promedio, " +
                 "SUM(ahorro_actual) as total_ahorrado, " +
                 "SUM(monto_objetivo) as total_objetivos " +
                 "FROM metas WHERE usuario_id = ?";

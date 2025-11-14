@@ -1,8 +1,8 @@
-package finanzas.vista;
+package com.finanzas.vista;
 
-import finanzas.controlador.FinanzasController;
-import finanzas.modelo.Transaccion;
-import finanzas.modelo.Categoria;
+import com.finanzas.controlador.FinanzasController;
+import com.finanzas.modelo.Transaccion;
+import com.finanzas.modelo.Categoria;
 
 import javax.swing.*;
 import java.awt.*;
@@ -203,7 +203,7 @@ public class NuevaTransaccionDialog extends JDialog {
             // For now, we'll use a simple query approach
             String sql = "SELECT presupuesto_actual FROM usuarios WHERE id = ?";
 
-            try (java.sql.Connection conn = finanzas.dao.ConexionDB.getConnection();
+            try (java.sql.Connection conn = com.finanzas.dao.ConexionDB.getConnection();
                  java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
 
                 stmt.setInt(1, usuarioId);
