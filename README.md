@@ -1,29 +1,29 @@
-# 💰 Gestor Financiero Educativo
+# Gestor Financiero Educativo
 
-## 🎯 Descripción
+## Descripción
 
 Aplicación completa de gestión de finanzas personales con características educativas, desarrollada en Java con arquitectura MVC. Incluye tanto interfaz gráfica (Swing) como versión de terminal para máxima compatibilidad.
 
-## ✨ Características Principales
+## Características Principales
 
-### 📊 Funcionalidades Financieras
-- **💰 Registro de transacciones**: Ingresos y gastos con categorización
-- **🎯 Gestión de metas**: Establecimiento y seguimiento de objetivos financieros
-- **📈 Estadísticas**: Reportes detallados de comportamiento financiero
-- **💡 Consejos educativos**: Recomendaciones personalizadas basadas en datos
-- **🗂️ Categorización**: Organización de gastos por categorías
-- **🔐 Autenticación**: Sistema seguro de usuarios con base de datos
+### Funcionalidades Financieras
+- **Registro de transacciones**: Ingresos y gastos con categorización
+- **Gestión de metas**: Establecimiento y seguimiento de objetivos financieros
+- **Estadísticas**: Reportes detallados de comportamiento financiero
+- **Consejos educativos**: Recomendaciones personalizadas basadas en datos
+- **Categorización**: Organización de gastos por categorías
+- **Autenticación**: Sistema seguro de usuarios con base de datos
 
-### 🏗️ Arquitectura Técnica
+### Arquitectura Técnica
 - **MVC Pattern**: Modelo, Vista, Controlador bien estructurado
 - **Java Collections**: ArrayList, Map, HashSet para gestión de datos
 - **Base de datos MySQL**: Persistencia robusta y escalable
 - **Interfaz dual**: Interfaz gráfica Swing + versión terminal
 - **Conexión JDBC**: Acceso optimizado a base de datos
 
-## 🚀 Modo de Ejecución
+## Modo de Ejecución
 
-### 🔥 **RECOMENDADO: Versión Terminal (Funcionando 100%)**
+### **RECOMENDADO: Versión Terminal (Funcionando 100%)**
 
 La versión de terminal está completamente funcional y ofrece una experiencia completa:
 
@@ -35,17 +35,17 @@ javac -cp "com/lib/mysql-connector-j-9.3.0.jar" com/finanzas/MainTerminal.java
 java -cp ".:com/lib/mysql-connector-j-9.3.0.jar" finanzas.MainTerminal
 ```
 
-#### 📋 **Características de la Terminal**
-- ✅ **Interface intuitiva**: Menús navegables con emojis
-- ✅ **Gestión completa**: Todas las funcionalidades disponibles
-- ✅ **Consejos educativos**: Sistema de recomendaciones activo
-- ✅ **Validaciones**: Control de errores y confirmaciones
-- ✅ **Base de datos**: Conexión y operaciones completas
-- ✅ **Estadísticas**: Reportes en tiempo real
+#### **Características de la Terminal**
+- **Interface intuitiva**: Menús navegables con emojis
+- **Gestión completa**: Todas las funcionalidades disponibles
+- **Consejos educativos**: Sistema de recomendaciones activo
+- **Validaciones**: Control de errores y confirmaciones
+- **Base de datos**: Conexión y operaciones completas
+- **Estadísticas**: Reportes en tiempo real
 
-### 🖥️ Interfaz Gráfica (Swing)
+### Interfaz Gráfica (Swing)
 
-⚠️ **Nota**: La interfaz gráfica puede tener problemas de despliegue en algunos entornos, pero la versión terminal proporciona funcionalidad completa.
+**Nota**: La interfaz gráfica puede tener problemas de despliegue en algunos entornos, pero la versión terminal proporciona funcionalidad completa.
 
 ```bash
 # Compilar proyecto
@@ -55,7 +55,7 @@ mvn clean package -q -Dmaven.test.skip=true
 java -cp target/gestor-financiero-educativo-1.0.0-jar-with-dependencies.jar finanzas.Main
 ```
 
-## 🗄️ Base de Datos
+## Base de Datos
 
 ### Configuración MySQL
 - **Host**: localhost:3306
@@ -76,7 +76,7 @@ mysql -u tu_usuario -p < setup_database.sql
 - **metas**: Objetivos financieros y progreso
 - **categorías**: Clasificación de gastos (futuro)
 
-## 👥 Usuarios de Prueba
+## Usuarios de Prueba
 
 | Usuario | Contraseña | Descripción |
 |---------|------------|-------------|
@@ -84,7 +84,7 @@ mysql -u tu_usuario -p < setup_database.sql
 | `Andres` | `12345` | Usuario básico |
 | `Pepe` | `1234` | Usuario de prueba |
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 appfinco-demo/
@@ -115,7 +115,7 @@ appfinco-demo/
 └── target/               # Archivos compilados Maven
 ```
 
-## 🎮 Guía de Uso - Versión Terminal
+## Guía de Uso - Versión Terminal
 
 ### 1. **Menú de Acceso**
 ```
@@ -126,11 +126,11 @@ appfinco-demo/
 
 ### 2. **Menú Principal**
 ```
-1. 💰 Transacciones  → Gestión de ingresos/gastos
-2. 🎯 Metas          → Objetivos financieros
-3. 📊 Estadísticas   → Reportes detallados
-4. 💡 Consejos       → Recomendaciones personalizadas
-5. 🔄 Cerrar Sesión  → Salir de la cuenta
+1. Transacciones  → Gestión de ingresos/gastos
+2. Metas          → Objetivos financieros
+3. Estadísticas   → Reportes detallados
+4. Consejos       → Recomendaciones personalizadas
+5. Cerrar Sesión  → Salir de la cuenta
 ```
 
 ### 3. **Gestión de Transacciones**
@@ -145,7 +145,7 @@ appfinco-demo/
 - **Actualizar**: Modificar ahorro
 - **Eliminar**: Remover meta
 
-## 💡 Sistema Educativo
+## Sistema Educativo
 
 ### Consejos Automáticos
 La aplicación genera consejos personalizados basados en:
@@ -155,12 +155,12 @@ La aplicación genera consejos personalizados basados en:
 - **Balance general**: Recomendaciones de ahorro
 
 ### Ejemplos de Consejos
-- 💡 "Tus gastos están cerca del 80% de tu saldo"
-- ⚠️ "Tus gastos promedio son altos. Revisa categorías"
-- 📝 "Registra más transacciones para mejor seguimiento"
-- 🎯 "Establece metas financieras para mantenerte motivado"
+- "Tus gastos están cerca del 80% de tu saldo"
+- "Tus gastos promedio son altos. Revisa categorías"
+- "Registra más transacciones para mejor seguimiento"
+- "Establece metas financieras para mantenerte motivado"
 
-## 🔧 Desarrollo y Compilación
+## Desarrollo y Compilación
 
 ### Prerrequisitos
 - **Java 8+**: JDK instalado y configurado
@@ -185,37 +185,37 @@ mvn clean package -q -Dmaven.test.skip=true
 java -jar target/gestor-financiero-educativo-1.0.0.jar
 ```
 
-## 📊 Características Técnicas Destacadas
+## Características Técnicas Destacadas
 
-### 🏗️ Arquitectura MVC
+### Arquitectura MVC
 - **Modelo**: Entidades POJO con validaciones
 - **Vista**: Interfaces gráficas y terminal
 - **Controlador**: Lógica de negocio centralizada
 
-### 🗃️ Java Collections
+### Java Collections
 - **ArrayList**: Listas de transacciones y metas
 - **HashMap**: Cache de datos en memoria
 - **HashSet**: Eliminación de duplicados
 - **Streams**: Procesamiento eficiente de datos
 
-### 🔐 Seguridad
+### Seguridad
 - **Validaciones**: Control de entrada de datos
 - **Manejo de errores**: Excepciones y recovery
 - **Conexiones**: Pool y cierre automático
 
-## 🎉 Estado del Proyecto
+## Estado del Proyecto
 
 | Componente | Estado | Descripción |
 |------------|--------|-------------|
-| **✅ Base de datos** | Completa | MySQL con todas las tablas |
-| **✅ Modelos** | Completa | POJOs con validaciones |
-| **✅ DAOs** | Completa | Operaciones CRUD optimizadas |
-| **✅ Controlador** | Completa | Lógica de negocio MVC |
-| **✅ Terminal** | ✅ **FUNCIONANDO** | Interface completa operativa |
-| **⚠️ GUI** | Parcial | Swing con problemas menores |
-| **✅ Diagramas** | Completa | UML documentación técnica |
+| **Base de datos** | Completa | MySQL con todas las tablas |
+| **Modelos** | Completa | POJOs con validaciones |
+| **DAOs** | Completa | Operaciones CRUD optimizadas |
+| **Controlador** | Completa | Lógica de negocio MVC |
+| **Terminal** | ✅ **FUNCIONANDO** | Interface completa operativa |
+| **GUI** | Parcial | Swing con problemas menores |
+| **Diagramas** | Completa | UML documentación técnica |
 
-## 🚀 Próximos Pasos
+## Próximos Pasos
 
 ### Funcionalidades Pendientes
 - [ ] Resolución de problemas GUI Swing
@@ -230,41 +230,37 @@ java -jar target/gestor-financiero-educativo-1.0.0.jar
 - [ ] Autenticación JWT
 - [ ] Multi-idioma
 
-## 📞 Soporte
+## Soporte
 
 ### Solución de Problemas Comunes
 
-**❌ Error de conexión a MySQL**
+**Error de conexión a MySQL**
 ```bash
 # Verificar servicio MySQL
 # Verificar credenciales en ConexionDB.java
 # Ejecutar setup_database.sql
 ```
 
-**❌ Clase no encontrada**
+**Clase no encontrada**
 ```bash
 # Verificar classpath
 # Compilar todas las clases
 javac -cp "com/lib/*" com/finanzas/*.java
 ```
 
-**❌ Interfaz gráfica no aparece**
+**Interfaz gráfica no aparece**
 - **Usar versión terminal**: Completamente funcional
 - **Verificar Java**: JDK 8+ requerido
 - **Librerías**: MySQL Connector instalado
 
-## 🏆 Conclusión
+## Conclusión
 
-**¡La aplicación está completamente funcional!** 🎉
+**¡La aplicación está completamente funcional!**
 
-- ✅ **Interfaz de terminal**: Experiencia completa y fluida
-- ✅ **Funcionalidades financieras**: Gestión total de finanzas
-- ✅ **Base de datos**: Almacenamiento robusto
-- ✅ **Sistema educativo**: Consejos y recomendaciones
-- ✅ **Arquitectura profesional**: MVC y mejores prácticas
+- **Interfaz de terminal**: Experiencia completa y fluida
+- **Funcionalidades financieras**: Gestión total de finanzas
+- **Base de datos**: Almacenamiento robusto
+- **Sistema educativo**: Consejos y recomendaciones
+- **Arquitectura profesional**: MVC y mejores prácticas
 
 **La versión de terminal proporciona todas las funcionalidades necesarias para una gestión financiera completa y educativa.**
-
----
-
-*Desarrollado con 💚 para promover la educación financiera personal*
