@@ -38,9 +38,6 @@ public class RegistroDialog extends JDialog {
         setResizable(false);
     }
 
-    public RegistroDialog(LoginFrame parent, FinanzasController controladorRegistro) {
-    }
-
     private void initComponents() {
         setLayout(new BorderLayout());
 
@@ -105,12 +102,12 @@ public class RegistroDialog extends JDialog {
         JPanel panelBotones = new JPanel(new FlowLayout());
         btnRegistrar = new JButton("Crear Cuenta");
         btnRegistrar.setBackground(new Color(50, 150, 100));
-        btnRegistrar.setForeground(Color.WHITE);
+        btnRegistrar.setForeground(Color.BLACK);
         btnRegistrar.addActionListener(this::registrarUsuario);
 
         btnCancelar = new JButton("Cancelar");
         btnCancelar.setBackground(new Color(200, 50, 50));
-        btnCancelar.setForeground(Color.WHITE);
+        btnCancelar.setForeground(Color.BLACK);
         btnCancelar.addActionListener(e -> dispose());
 
         panelBotones.add(btnRegistrar);
@@ -176,6 +173,18 @@ public class RegistroDialog extends JDialog {
             String presupuestoStr = txtPresupuestoInicial.getText().trim();
 
             // Validaciones
+            if (edadStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "La edad es obligatoria", "Error", JOptionPane.ERROR_MESSAGE);
+                txtEdad.requestFocus();
+                return;
+            }
+
+            if (presupuestoStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El presupuesto inicial es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+                txtPresupuestoInicial.requestFocus();
+                return;
+            }
+
             if (nombre.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "El nombre de usuario es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
                 txtNombre.requestFocus();
@@ -215,6 +224,7 @@ public class RegistroDialog extends JDialog {
             nuevoUsuario.setEdad((byte) edad);
             nuevoUsuario.setTipoUso(tipoUso);
             nuevoUsuario.setPresupuestoInicial(presupuestoInicial);
+            nuevoUsuario.setPresupuestoActual(presupuestoInicial);
 
             // Registrar usuario
             if (controlador.registrarUsuario(nuevoUsuario)) {

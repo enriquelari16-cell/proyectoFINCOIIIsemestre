@@ -31,12 +31,12 @@ public class EducationalTipsPanel extends JPanel {
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnActualizarConsejos = new JButton("Actualizar Consejos");
         btnActualizarConsejos.setBackground(new Color(100, 150, 200));
-        btnActualizarConsejos.setForeground(Color.WHITE);
+        btnActualizarConsejos.setForeground(Color.BLACK);
         btnActualizarConsejos.addActionListener(e -> cargarConsejos());
 
         btnMostrarEstadisticas = new JButton("Ver Estadísticas");
         btnMostrarEstadisticas.setBackground(new Color(150, 100, 200));
-        btnMostrarEstadisticas.setForeground(Color.WHITE);
+        btnMostrarEstadisticas.setForeground(Color.BLACK);
         btnMostrarEstadisticas.addActionListener(e -> mostrarEstadisticas());
 
         panelBotones.add(btnActualizarConsejos);
